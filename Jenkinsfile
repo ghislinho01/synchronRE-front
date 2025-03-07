@@ -1,53 +1,46 @@
 pipeline {
     agent any
-
-    tools {
-        nodejs "NodeJS" // Nom de l'installation Node.js dans Jenkins (à configurer dans Jenkins Global Tool Configuration)
-    }
-
     environment {
-        NPM_CONFIG_CACHE = "${WORKSPACE}\\.npm"
+        FRONTEND_IMAGE = "frontend-image"
     }
-
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'jeanluc/dev', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+                script {
+                    // Installer les dépendances Angular
+                    sh 'npm install'
+                }
             }
         }
-
-        stage('Build') {
+        stage('Build Angular App') {
             steps {
-                bat 'npm run build'
+                script {
+                    // Compiler l'application Angular en production
+                    sh 'npm run build --prod'
+                }
             }
         }
-
-        stage('Copy Build to Nginx Directory') {
+        stage('Build Docker Image') {
             steps {
-                // Copie les fichiers de 'dist/main' (ou autre sous-répertoire) directement dans 'C:\\nginx-1.24.0\\html\\synchronre'
-                bat '''
-                if not exist C:\\nginx-1.24.0\\html\\synchronre mkdir C:\\nginx-1.24.0\\html\\synchronreDev
-                xcopy /s /e /y dist\\main\\* C:\\nginx-1.24.0\\html\\synchronreDev\\
-                '''
+                script {
+                    // Construire l'image Docker pour l'application Frontend
+                    sh 'docker build -t $FRONTEND_IMAGE .'
+                }
             }
         }
-
-        stage('Archive Artifacts') {
+        stage('Deploy Frontend') {
             steps {
-                archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true
+                script {
+                    // Déployer le Frontend en utilisant Docker sur le port 4200
+                    sh 'docker run -d -p 4200:80 --name frontend-container $FRONTEND_IMAGE'
+                }
             }
         }
     }
-
     post {
         always {
-            cleanWs()
+            // Nettoyer les images Docker inutiles après l'exécution
+            sh 'docker system prune -f'
         }
     }
 }
