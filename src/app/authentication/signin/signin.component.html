@@ -1,0 +1,120 @@
+<div class="auth-container">
+  <div class="row auth-main">
+    <div class="col-sm-8 px-0 d-none d-sm-block" style="background-color: #fff;">
+      <!-- <div class="left-img" style="background-image: url(https://www.justifit.fr/wp-content/uploads/2020/09/Les-Differents-Types-DAssurance.jpg);
+      background-repeat: no-repeat;
+  background-size: 100% 100%;">
+      </div> -->
+
+      <div class="left-img" style="background-image: url(https://asseco.com/files/public/_processed_/csm_insurance_952d181a9a.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;">
+      </div>
+
+    </div>
+    <div class="col-sm-4 auth-form-section">
+      <div class="form-section">
+        <div class="auth-wrapper">
+
+          <div class="logo-part"> 
+            <div class="logo-app-part">
+              <img src="assets/images/images-app/logo_synchro_re.png" class="logo-app" alt="" />
+            </div>
+          </div>
+
+          <div class=""  *ngIf="!isFirstConnexion">
+            <div class="text-login">
+              <h2 class="login-title">Connectez-vous</h2>
+            </div>
+
+            <form class="validate-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="username" autocomplete="off" />
+                    <mat-icon matSuffix>face</mat-icon>
+                    <mat-error *ngIf="authForm.get('username').hasError('required')">
+                      L'email est obligatoire
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Mot de passe</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"  autocomplete="off">
+                    <a class="show-pwd-icon" href="#" onClick="return false;" matSuffix (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                    <mat-error *ngIf="authForm.get('password').hasError('required')">
+                      Le mot de passe est obligatoire
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- <div class="d-flex justify-content-between align-items-center mb-5">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" value=""> Remember me
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <a class="txt1" routerLink="/authentication/forgot-password">Forgot Password?</a>
+              </div> -->
+              <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+              <div class="container-auth-form-btn">
+                <div style="text-align:center">
+                  <button mat-raised-button color="primary" [class.auth-spinner]="loading" [disabled]="loading"
+                    class="auth-form-btn custom_btn_primary" [disabled]="!authForm.valid || isLock" type="submit">Se connecter</button>
+                </div>
+              </div>
+              <br>
+              <div class="container-auth-form-btn">
+                <div style="text-align:center">
+                  <a style="text-decoration: underline; cursor: pointer;" (click)="forgotPassword()">Mot de passe oublié ou expiré ?</a>
+                </div>
+              </div>
+
+              <div class="container-auth-form-btn" *ngIf="isLock && valeurSeconde>0">
+                <div style="text-align:center">
+                  <a style="text-decoration: none; cursor: pointer;" class="text-danger">Votre session a été bloquée, veuillez réessayer dans {{valeurSeconde}} seconde(s), svp!</a>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="form-section" *ngIf="isFirstConnexion">
+            <div class="text-login">
+              <h2 class="login-title">Réinitialisation de mot de passe</h2>
+            </div>
+            <app-reset-password [currentToken]="currentToken" [isForgetPassword]="isPassForget"></app-reset-password>
+         </div>
+
+          <!-- <h6 class="social-login-title">OR</h6>
+          <ul class="list-unstyled social-icon mb-0 mt-3">
+            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
+                <i class="fab fa-google"></i>
+              </a></li>
+            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded flex-c-m">
+                <i class="fab fa-facebook-f"></i>
+              </a></li>
+            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
+                <i class="fab fa-twitter"></i>
+              </a></li>
+            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
+                <i class="fab fa-linkedin-in"></i>
+              </a></li>
+          </ul> -->
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>

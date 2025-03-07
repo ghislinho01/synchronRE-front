@@ -1,0 +1,32 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Comptabilité</strong> affaires facultatives</h2>
+                    </div>
+
+                    <div class="body">
+                        <mat-tab-group>
+                            <mat-tab label="Paiements">
+                                <ng-template matTabContent>
+                                    <app-list-affaire-en-comptabilite
+                                        [refreshDataTable]="refreshDataTable" [isOngletPaiement]="true" [endPoint]="'affaires/facultative/by-reassureur-en-reglement'"></app-list-affaire-en-comptabilite>
+                                </ng-template>
+                            </mat-tab>
+
+                            <mat-tab label="Reversements">
+                                <ng-template matTabContent>
+                                    <app-list-affaire-en-comptabilite
+                                        [refreshDataTable]="refreshDataTable"  [isOngletPaiement]="false" [isOngletReversement]="true"  [endPoint]="'affaires/facultative/by-reassureur-en-reglement'"></app-list-affaire-en-comptabilite>
+                                </ng-template>
+                            </mat-tab>
+
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

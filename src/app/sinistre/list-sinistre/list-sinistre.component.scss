@@ -1,0 +1,56 @@
+.body {
+    padding: 10px 0px !important;
+    min-height: 50vh;
+
+    .statLibelle {
+        font-size: 0.75rem;
+        font-weight: bold;
+      
+        color: #fff;
+        border-radius: 10px;
+        border: 1px solid gray;
+        padding: 3px 7px;
+
+        &.CPAI-CREV {
+            background-color: orange;
+            color: black;
+        }
+
+        &.RET-COMPTA{
+            background-color:  orange;;
+            color: black;
+        }
+        
+        &.APAI {
+            background-color: yellow;
+            color: black;
+        }
+
+        &.SAI{
+            background-color: rgb(76, 91, 139);
+        }
+
+        &.RET {
+            background-color: var(--danger-color);
+        }
+
+        &.SAI-CRT {
+            background-color: orange;
+            color: black;
+        }
+
+        &.TRA {
+            background-color: var(--info-color);
+        }
+
+        &.AVAL {
+            background-color: rgb(76, 133, 139);
+            color: #fff;
+        }
+
+        &.CREV {
+            background-color: var(--info-color);
+        }
+    }
+}
+

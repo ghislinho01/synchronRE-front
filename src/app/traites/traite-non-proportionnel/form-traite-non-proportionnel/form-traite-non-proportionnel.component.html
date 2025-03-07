@@ -1,0 +1,67 @@
+<div class="container-affaire-facultative">
+
+    <div class="step-evolution" *ngIf="!currentTraiterNonPropo">
+        <div
+          class="step-item"
+          [class.active-stepper]="stepWizard == 1"
+          [class.good-stepper]="stepWizard > 1"
+        >
+          <div class="title-stepper">
+            <b>1</b>
+            <span>Identification</span>
+          </div>
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div
+          class="step-item"
+          [class.active-stepper]="stepWizard == 2"
+          [class.good-stepper]="stepWizard > 2"
+        > 
+          <div class="title-stepper">
+            <b>2</b>
+            <span>Conditions du traité</span>
+          </div>
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div
+          class="step-item"
+          [class.active-stepper]="stepWizard == 3"
+          [class.good-stepper]="stepWizard > 3"
+        >
+          <div class="title-stepper">
+            <b>3</b>
+            <span>Placement</span>
+          </div>
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div class="divider-evolution"></div>
+      </div>
+ 
+      <div class="stepper-body">
+        <div class="stepper-form">
+            <ng-container *ngIf="stepWizard == 1"> 
+                <app-information-general-traite-non-proportion  (closeModal)="closeFormModal($event)"  [currentTraiterNonPropoChild]="currentTraiterNonPropo"
+                (sendInfoParent)="receiveIdTraitNonPropor($event)" (stepperInice)="gotoStepper($event)" 
+                [isWizardProcess]="true" [idTraitNonProChild]="idTraitNonPropor"></app-information-general-traite-non-proportion>
+            </ng-container>   
+
+            <ng-container *ngIf="stepWizard == 2"> 
+                <app-condition-traite-non-proportion (closeModal)="closeFormModal($event)"  [idTraitNonProChild]="idTraitNonPropor" 
+                 [currentTraiterNonPropoChild]="currentTraiterNonPropo" (stepperInice)="gotoStepper($event)" 
+                 [isWizardProcess]="true" (idTraitNonPropor)="receiveIdTraitNonPropor($event)" ></app-condition-traite-non-proportion>
+            </ng-container>
+
+            <ng-container *ngIf="stepWizard == 3">
+                <app-repartition-traite-non-proportion (stepperInice)="gotoStepper($event)" 
+                 (closeModal)="closeFormModal($event)" 
+                [isWizardProcess]="true" [isPlacement]="true" [idTraitNonProChild]="idTraitNonPropor || currentTraiterNonPropo.traiteNpId"
+                [currentTraiterNonPropoChild]="currentTraiterNonPropo"></app-repartition-traite-non-proportion>
+            </ng-container>
+
+        </div>
+      </div>
+
+</div>

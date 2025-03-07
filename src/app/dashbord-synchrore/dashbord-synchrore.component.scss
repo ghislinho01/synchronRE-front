@@ -1,0 +1,39 @@
+.body {
+    min-height: 80vh;
+
+    .welcome {
+        display: flex;
+        min-height: 70vh;
+        align-items: center;
+        justify-content: center;
+        font-size: 35px !important;
+        b {
+            text-transform: uppercase;
+        }
+
+     
+    }
+
+   
+}
+
+.graph-part {
+    // padding: 10px;
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+
+    .repartition-affaire {
+        border: 1px dashed var(--grey-color);
+        border-radius: 5px;
+        padding: 10px;
+        width: 25%;
+    }
+
+    .line-chart-part {
+        border: 1px dashed var(--grey-color);
+        border-radius: 5px;
+        padding: 10px;
+       flex: 1;
+    }
+}

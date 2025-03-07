@@ -1,0 +1,484 @@
+<div
+  class="form-indentification-container"
+  [ngBusy]="{
+    busy: busySave,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }">
+  <form [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem(formulaireGroup.value)">
+    <fieldset class="mt-3">
+        <legend>Identification du traité</legend>
+        <div class="row">
+        <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
+            <label>Exercice : <span class="required_champs">*</span> </label>
+            <ng-select
+              formControlName="exeCode"
+              name="exeCode"
+              id="exeCode">
+              <ng-option
+                *ngFor="let exercice of listeExercices"
+                [value]="exercice?.exeCode"
+                >{{ exercice.exeLibelle }}</ng-option>
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('exeCode')?.dirty || getFormFiledsValue('exeCode')?.touched) && getFormFiledsValue('exeCode')?.invalid && getFormFiledsValue('exeCode')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+
+          <div class="col-md-3 col-xs-12 mb-1">
+            <label
+              >Numéro traité :
+              <span class="required_champs">*</span>
+            </label>
+            <input
+              class="form-control custom-input"
+              placeholder="Numéro de police"
+              autocomplete="off"
+              formControlName="traiNumero"
+              name="traiNumero"
+              [class.errorInputForm]="
+                getFormFiledsValue('traiNumero')?.invalid &&
+                getFormFiledsValue('traiNumero')?.touched"
+              type="text"
+            />
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiNumero')?.dirty || getFormFiledsValue('traiNumero')?.touched) && getFormFiledsValue('traiNumero')?.invalid && getFormFiledsValue('traiNumero')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+
+          <div class="col-md-3 col-xs-12 mb-1">
+            <label
+              >Référence :
+              <span class="required_champs">*</span>
+            </label>
+            <input
+              class="form-control custom-input"
+              placeholder="Référence "
+              autocomplete="off"
+              formControlName="traiReference"
+              name="traiReference"
+              [class.errorInputForm]="
+                getFormFiledsValue('traiReference')?.invalid &&
+                getFormFiledsValue('traiReference')?.touched
+              "
+              type="text"
+            />
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiReference')?.dirty || getFormFiledsValue('traiReference')?.touched) && getFormFiledsValue('traiReference')?.invalid && getFormFiledsValue('traiReference')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+
+          <div class="col-md-3 col-xs-12 mb-1">
+            <label
+              >Source :
+            </label>
+            <input
+              class="form-control custom-input"
+              placeholder="Source"
+              autocomplete="off"
+              formControlName="traiSourceRef"
+              id="traiSourceRef"
+              name="traiSourceRef"
+              type="text"
+            />
+          </div>
+
+          <div class="col-md-6 col-xs-12 col-sm-12 mb-1">
+            <label>Nature : <span class="required_champs">*</span> </label>
+
+            <ng-select
+              formControlName="natCode"
+              name="natCode"
+              id="natCode"
+            >
+              <ng-option
+                *ngFor="let nature of natureListe"
+                [value]="nature.natCode"
+                >{{ nature.natLibelle }}
+              </ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('natCode')?.dirty || getFormFiledsValue('natCode')?.touched) && getFormFiledsValue('natCode')?.invalid && getFormFiledsValue('natCode')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+
+          <div class="col-md-6 col-xs-12 col-sm-12 mb-1">
+            <label>Exercice de rattachement : <span class="required_champs">*</span> </label>
+
+            <ng-select
+              formControlName="traiEcerciceRattachement"
+              name="traiEcerciceRattachement"
+              id="traiEcerciceRattachement"
+            >
+              <ng-option
+                *ngFor="let exercice of exoRattachement"
+                [value]="exercice.code"
+                >{{ exercice.libelle }}</ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiEcerciceRattachement')?.dirty || getFormFiledsValue('traiEcerciceRattachement')?.touched) && getFormFiledsValue('traiEcerciceRattachement')?.invalid && getFormFiledsValue('traiEcerciceRattachement')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+
+          <div class="col-md-3 col-xs-12 mb-1">
+            <label
+              >Date d'effet :
+              <span class="required_champs">*</span>
+            </label>
+
+            <input
+              class="form-control custom-input"
+              placeholder="02/01/2024"
+              autocomplete="off"
+              formControlName="traiDateEffet"
+              [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-dark-blue'}"
+              bsDatepicker
+              (ngModelChange)="formatDateTraiDateEffet($event)"
+              name="traiDateEffet"
+              type="text"
+              [class.errorInputForm]="
+                      getFormFiledsValue('traiDateEffet')?.invalid &&
+                      getFormFiledsValue('dateEffet')?.touched"
+            />
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiDateEffet')?.dirty || getFormFiledsValue('traiDateEffet')?.touched) && getFormFiledsValue('traiDateEffet')?.invalid && getFormFiledsValue('traiDateEffet')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+          <div class="col-md-3 col-xs-12 mb-1">
+            <label
+              >Echeance :
+              <span class="required_champs">*</span>
+            </label>
+            <input
+              class="form-control custom-input"
+              placeholder="02/01/2024"
+              autocomplete="off"
+              (ngModelChange)="formatDateTraiDateEcheance($event)"
+              formControlName="traiDateEcheance"
+              [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-dark-blue'}"
+              bsDatepicker
+              name="traiDateEcheance"
+              type="text"
+              [class.errorInputForm]="
+                      getFormFiledsValue('traiDateEcheance')?.invalid &&
+                      getFormFiledsValue('traiDateEcheance')?.touched"
+            />
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiDateEcheance')?.dirty || getFormFiledsValue('traiDateEcheance')?.touched) && getFormFiledsValue('traiDateEcheance')?.invalid && getFormFiledsValue('traiDateEcheance')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
+            <label>Devise : <span class="required_champs">*</span> </label>
+            <ng-select
+              formControlName="devCode"
+              name="devCode"
+              (change)="clearCours()"
+              id="devCode">
+              <ng-option
+                *ngFor="let devise of listeDevises"
+                [value]="devise?.devCode"
+                >{{ devise.devCode }}</ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('devCode')?.dirty || getFormFiledsValue('devCode')?.touched) && getFormFiledsValue('devCode')?.invalid && getFormFiledsValue('devCode')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+          <div class="col-md-3 col-xs-12 mb-1">
+            <label
+              >Cours :
+              <span class="required_champs">*</span>
+            </label>
+            <input
+              class="form-control custom-input"
+              placeholder="Cours"
+              autocomplete="off"
+              formControlName="traiCoursDevise"
+              name="traiCoursDevise"
+              [class.errorInputForm]="
+                getFormFiledsValue('traiCoursDevise')?.invalid &&
+                getFormFiledsValue('traiCoursDevise')?.touched
+              "
+              type="text"
+            />
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiCoursDevise')?.dirty || getFormFiledsValue('traiCoursDevise')?.touched) && getFormFiledsValue('traiCoursDevise')?.invalid && getFormFiledsValue('traiCoursDevise')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+
+          <div class="col-md-12 col-xs-12 mb-1">
+            <label
+              >Placé par  :
+              <span class="required_champs">*</span>
+            </label>
+            <ng-select
+              formControlName="courtierPlaceurId"
+              name="courtierPlaceurId"
+              id="courtierPlaceurId"
+            >
+              <ng-option
+                *ngFor="let courtier of courtierPlaceurListe"
+                [value]="courtier.cesId"
+              >{{ courtier.cesNom }}
+              </ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('courtierPlaceurId')?.dirty || getFormFiledsValue('courtierPlaceurId')?.touched) && getFormFiledsValue('courtierPlaceurId')?.invalid && getFormFiledsValue('courtierPlaceurId')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="mt-4">
+        <legend>Comptes</legend>
+        <div class="row">
+          <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
+            <label>Periodicité : <span class="required_champs">*</span> </label>
+
+            <ng-select
+              formControlName="traiPeriodicite"
+              name="traiPeriodicite"
+              id="traiPeriodicite"
+
+            >
+              <ng-option
+                *ngFor="let periodicite of periodiciteListe"
+                [value]="periodicite.libelle"
+              >{{ periodicite.libelle }}</ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiPeriodicite')?.dirty || getFormFiledsValue('traiPeriodicite')?.touched) && getFormFiledsValue('traiPeriodicite')?.invalid && getFormFiledsValue('traiPeriodicite')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+            <div class="col-md-3 col-xs-12 mb-1">
+              <label
+                >Delai d'envoi (jours) :
+                <span class="required_champs">*</span>
+              </label>
+              <input
+                class="form-control custom-input"
+                placeholder=""
+                autocomplete="off"
+                formControlName="traiDelaiEnvoi"
+                name="traiDelaiEnvoi"
+                [class.errorInputForm]="
+                  getFormFiledsValue('traiDelaiEnvoi')?.invalid &&
+                  getFormFiledsValue('traiDelaiEnvoi')?.touched
+                "
+                type="text"
+              />
+
+              <small
+                class="text-danger"
+                *ngIf="(getFormFiledsValue('traiDelaiEnvoi')?.dirty || getFormFiledsValue('traiDelaiEnvoi')?.touched) && getFormFiledsValue('traiDelaiEnvoi')?.invalid && getFormFiledsValue('traiDelaiEnvoi')?.errors?.['required']"
+              >
+                Ce champ est obligatoire
+              </small>
+            </div>
+            <div class="col-md-2 col-xs-12 mb-1">
+              <label
+                >Délai de confirmation
+                <span class="required_champs">*</span>
+              </label>
+              <input
+                class="form-control custom-input"
+                placeholder=""
+                autocomplete="off"
+                formControlName="traiDelaiConfirmation"
+                name="traiDelaiConfirmation"
+                [class.errorInputForm]="
+                  getFormFiledsValue('traiDelaiConfirmation')?.invalid &&
+                  getFormFiledsValue('traiDelaiConfirmation')?.touched
+                "
+                type="text"
+              />
+              <small
+                class="text-danger"
+                *ngIf="(getFormFiledsValue('traiDelaiConfirmation')?.dirty || getFormFiledsValue('traiDelaiConfirmation')?.touched) && getFormFiledsValue('traiDelaiConfirmation')?.invalid && getFormFiledsValue('traiDelaiConfirmation')?.errors?.['required']"
+              >
+                Champ obligatoire
+              </small>
+            </div>
+          <div class="col-md-2 col-xs-12 col-sm-12 mb-1">
+            <label>Délai de paiement :
+              <span class="required_champs">*</span>
+            </label>
+            <input
+              class="form-control custom-input"
+              placeholder=""
+              autocomplete="off"
+              formControlName="traiDelaiPaiement"
+              name="traiDelaiPaiement"
+              [class.errorInputForm]="
+                  getFormFiledsValue('traiDelaiPaiement')?.invalid &&
+                  getFormFiledsValue('traiDelaiPaiement')?.touched
+                "
+              type="text"
+            />
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiDelaiPaiement')?.dirty || getFormFiledsValue('traiDelaiPaiement')?.touched) && getFormFiledsValue('traiDelaiPaiement')?.invalid && getFormFiledsValue('traiDelaiPaiement')?.errors?.['required']"
+            >
+              Champ obligatoire
+            </small>
+          </div>
+          <div class="col-md-2 col-xs-12 col-sm-12 mb-1">
+            <label>Devise : <span class="required_champs">*</span> </label>
+
+            <ng-select
+              formControlName="traiCompteDevCode"
+              name="traiCompteDevCode"
+              id="traiCompteDevCode"
+            >
+              <ng-option
+                *ngFor="let devise of listeDevises"
+                [value]="devise?.devCode"
+              >{{ devise.devCode }}</ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiCompteDevCode')?.dirty || getFormFiledsValue('traiCompteDevCode')?.touched) && getFormFiledsValue('traiCompteDevCode')?.invalid && getFormFiledsValue('traiCompteDevCode')?.errors?.['required']"
+            >
+              Champ obligatoire
+            </small>
+          </div>
+         </div>
+    </fieldset>
+    <fieldset class="mt-4">
+        <legend>Rénumeration du courtier</legend>
+        <div class="row">
+          <div class="row">
+            <div class="col-md-3 col-xs-12 mb-1">
+              <label
+              >Taux NelsonRe :
+                <span class="required_champs">*</span>
+              </label>
+              <input
+                class="form-control custom-input"
+                placeholder=""
+                autocomplete="off"
+                formControlName="traiTauxCourtier"
+                name="traiTauxCourtier"
+                [class.errorInputForm]="
+                getFormFiledsValue('traiTauxCourtier')?.invalid &&
+                getFormFiledsValue('traiTauxCourtier')?.touched
+              "
+                type="text"
+              />
+              <small
+                class="text-danger"
+                *ngIf="(getFormFiledsValue('traiTauxCourtier')?.dirty || getFormFiledsValue('traiTauxCourtier')?.touched) && getFormFiledsValue('traiTauxCourtier')?.invalid && getFormFiledsValue('traiTauxCourtier')?.errors?.['required']"
+              >
+                Ce champ est obligatoire
+              </small>
+            </div>
+            <div class="col-md-3 col-xs-12 mb-1">
+              <label
+              >Taux courtier :
+                <span class="required_champs">*</span>
+              </label>
+              <input
+                class="form-control custom-input"
+                placeholder=""
+                autocomplete="off"
+                formControlName="traiTauxCourtierPlaceur"
+                name="traiTauxCourtierPlaceur"
+                [class.errorInputForm]="
+                getFormFiledsValue('traiTauxCourtierPlaceur')?.invalid &&
+                getFormFiledsValue('traiTauxCourtierPlaceur')?.touched
+              "
+                type="text"
+              />
+              <small
+                class="text-danger"
+                *ngIf="(getFormFiledsValue('traiTauxCourtierPlaceur')?.dirty || getFormFiledsValue('traiTauxCourtierPlaceur')?.touched) && getFormFiledsValue('traiTauxCourtierPlaceur')?.invalid && getFormFiledsValue('traiTauxCourtierPlaceur')?.errors?.['required']"
+              >
+                Ce champ est obligatoire
+              </small>
+            </div>
+            <div class="col-md-3 col-xs-12 mb-1">
+              <label
+              >Taux d'abattement :
+                <span class="required_champs">*</span>
+              </label>
+              <input
+                class="form-control custom-input"
+                placeholder=""
+                autocomplete="off"
+                formControlName="traiTauxAbattement"
+                name="traiTauxAbattement"
+                [class.errorInputForm]="
+                getFormFiledsValue('traiTauxAbattement')?.invalid &&
+                getFormFiledsValue('traiTauxAbattement')?.touched
+              "
+                type="text"
+              />
+              <small
+                class="text-danger"
+                *ngIf="(getFormFiledsValue('traiTauxAbattement')?.dirty || getFormFiledsValue('traiTauxAbattement')?.touched) && getFormFiledsValue('traiTauxAbattement')?.invalid && getFormFiledsValue('traiTauxAbattement')?.errors?.['required']"
+              >
+                Ce champ est obligatoire
+              </small>
+            </div>
+          </div>
+          </div>
+    </fieldset>
+
+    <div class="custom-btn-save-manager" *ngIf="!isDetails">
+      <button
+        type="submit"
+        class="btn btn-md custom_btn_primary pull-right"
+        [disabled]="!formulaireGroup.valid"
+      >
+        {{ idTraitNonProChild || currentTraiterNonPropoChild?.traiteNpId? "Modifier et continuer" : "Enregistrer et continuer" }}
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-md btn-cancel pull-right"
+        (click)="closeModal.emit(false)"
+        *ngIf="isWizardProcess"
+      >
+        Annuler
+      </button>
+    </div>
+  </form>
+</div>

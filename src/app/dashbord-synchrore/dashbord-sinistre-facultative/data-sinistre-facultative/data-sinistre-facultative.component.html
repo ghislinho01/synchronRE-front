@@ -1,0 +1,508 @@
+<fieldset class="mb-4">
+    <legend > Critère de recherche</legend>
+      <div class="row gy-2 p-3">
+        <div class="col-1">
+            <label>Exercices :</label>
+            <ng-select
+            name="exerName"
+            id="exercId"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : N° XX XX"
+            [items]="exercices"
+            bindLabel="exeLibelle"
+            [multiple]="true"
+            bindValue="exeCode"
+            [(ngModel)]="itemsExercices"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
+            >
+        </ng-select>
+        </div>
+        <div class="col-2">
+            <label>Cedante :</label>
+            <ng-select
+            name="affaireCedante"
+            id="affaireCedante"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : N° XX XX"
+            [items]="cedantes"
+            [multiple]="true"
+            bindLabel="cedNomFiliale"
+            bindValue="cedId"
+            [(ngModel)]="itemsCedId"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
+            >
+        </ng-select>
+        </div>
+        <div class="col-2">
+            <label>Cessionnaire:</label>
+            <ng-select
+            name="affaireCessionnaire"
+            id="affaireCessionnaire"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : N° XX XX"
+            [items]="listes"
+            [multiple]="true"
+            bindLabel="cesIds"
+            bindValue="cesIds"
+            [(ngModel)]="itemscesIds"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
+
+            >
+        </ng-select>
+        </div>
+        <div class="col-2">
+          <label>Couverture :</label>
+          <ng-select
+          name="couvName"
+          id="couvId"
+          notFoundText="Aucune donnée"
+          placeholder="Ex : Multirisques professionnelle"
+          [items]="couvertures"
+          [multiple]="true"
+          bindLabel="couLibelle"
+          bindValue="couId"
+          [(ngModel)]="itemsCouId"
+          (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
+          >
+      </ng-select>
+      </div>
+        <div class="col-1">
+            <label>Etat :</label>
+            <ng-select
+            name="etatName"
+            id="etatId"
+            [multiple]="false"
+            notFoundText="Aucune donnée"
+            placeholder="Ex: Réaliser"
+            [items]="etat"
+            bindLabel="libelle"
+            bindValue="libelle"
+            [(ngModel)]="itemsEtatName"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
+            >
+        </ng-select>
+        </div>
+        <div class="col-1">
+            <label>Statut :</label>
+            <ng-select
+            name="affaireStatut"
+            id="affaireStatut"
+            notFoundText="Aucune donnée"
+            [multiple]="true"
+            placeholder="Ex: Affaire N° XX XX"
+            [items]="listes"
+            bindLabel="affCode"
+            bindValue="affId"
+            [(ngModel)]="itemsAffId"
+            >
+        </ng-select>
+        </div>
+
+        <div class="col-1">
+            <label>Devise :</label>
+            <ng-select
+            name="affaireDevise"
+            id="affaireDevise"
+            notFoundText="Aucune donnée"
+            placeholder="Ex: N° XX XX"
+            [items]="devises"
+            [multiple]="true"
+            bindLabel="devCode"
+            bindValue="devCode"
+            [(ngModel)]="itemsDevCode"
+          (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
+            >
+        </ng-select>
+        </div>
+        <div class="col-1">
+            <label>Effet :</label>
+            <input
+            class="form-control custom-input"
+            placeholder="10/01/2023"
+            autocomplete="off"
+            [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-dark-blue'}"
+            [maxDate]="maxDate"
+            bsDatepicker
+            name="honoraire"
+            type="text"
+            [(ngModel)]="itemsEffet"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
+            />
+        </div>
+        <div class="col-1">
+            <label>Echéance :</label>
+            <input
+            class="form-control custom-input"
+            placeholder="10/01/2023"
+            autocomplete="off"
+            [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-dark-blue'}"
+            [maxDate]="maxDate"
+            bsDatepicker
+            name="honoraire"
+            type="text"
+            [(ngModel)]="itemsEcheance"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
+            />
+        </div>
+      </div>
+  </fieldset>
+
+  <fieldset class="mb-4">
+    <legend >Par cédantes </legend>
+
+    <fieldset class="mt-4">
+        <legend >Affaires facultatives </legend>
+            <div class="row">
+                <div class="col-md-8 col-xs-8 scrolleur">
+                  <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th colspan="6" style="padding: 14px;">
+                          <div class="row d-flex align-items-center">
+                            <!--<div class="col-md-3 col-sm-12">
+                              <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                            </div>-->
+                            <div class="col-md-2 col-sm-12">
+                              <button type="button" class="btn btn-success w-100 cls-card" style="font-weight: 500;">
+                                Nombre Affaires <br> <span class="fw-bold">{{items.nbrAffaires || 0 | moneyFormat}}</span>
+                              </button>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                              <button type="button" class="btn btn-success w-100 cls-card" style="font-weight: 500;">
+                                Total Smp/Lci <br> <span class="fw-bold">{{items.mtTotalSmpLci || 0 | moneyFormat}}</span>
+                              </button>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                              <button type="button" class="btn btn-success w-100 cls-card" style="font-weight: 500;">
+                                Capitaux à 100% <br><span class="fw-bold">{{items.mtTotalCapitalInitial || 0 | moneyFormat}}</span>
+                              </button>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                              <button type="button" class="btn btn-success w-100 cls-card" style="font-weight: 500;">
+                                Total Smp/Lci Accepté <br><span class="fw-bold">{{items.mtTotalSmpLciAccpte || 0 | moneyFormat}}</span>
+                              </button>
+                            </div>
+                            <div class="col-md-3 col-sm-12 d-flex justify-content-center h-100 p-0">
+                                <button type="button" class="btn btn-outline-secondary " (click)="downloadExcel()">
+                                  <i class="fa fa-file-excel" aria-hidden="true"></i>
+                                  Export Excel</button>
+                                <button type="button" class="btn btn-outline-secondary ms-2" (click)="downloadPdf()">
+                                  <i class="fa fa-file-pdf" aria-hidden="true"></i>
+                                  Export Pdf
+                                </button>
+
+
+                            </div>
+
+                          </div>
+                        </th>
+                      </tr>
+                      <tr class="custom-table-head">
+                        <th class="txt-align-center-counter-row">
+                          <a title="Actualiser">
+                            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                        </th>
+                        <th>Cédante</th>
+                        <th>Nombre affaires </th>
+                        <th>SMP/LCI</th>
+                        <!--width="428px"-->
+                        <th width="120px" class="txt-align-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let destailCedante of detailsAffaireParCedantes ; let indice = index">
+                            <td>{{indice + 1 }}</td>
+                            <td>{{destailCedante.libelle}}</td>
+                            <td>{{destailCedante.nbrAffaires | moneyFormat}} ({{destailCedante.tauxAffaires}} %)</td>
+                            <td>{{destailCedante.mtSmpLci | moneyFormat}} ({{destailCedante.tauxSmpLci}} %)</td>
+                            <td class="custom-width-td-action">
+                              <div class="custom-td-action">
+                                <div ngbDropdown class="d-inline-block">
+                                  <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
+                                    Actions
+                                  </button>
+                                    <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
+                                      <button ngbDropdownItem>
+                                        <i class="fa fa-list"></i>&nbsp;Détails
+                                      </button>
+                                    </div>
+                                </div>
+                              </div>
+                            </td>
+                      </tr>
+                    </tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+                  </table>
+                </div>
+
+                <div class="col-md-4 col-xs-4 scrolleur">
+                    <div class="bg-card w-100 shadow">
+                      <div [chart]="segments"></div>
+                  </div>
+
+                </div>
+              </div>
+
+    </fieldset>
+
+    <fieldset class="mt-4">
+        <legend >Commissions </legend>
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+              <table class="table table-condensed table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="7" style="padding: 14px;">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                          <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="custom-table-head">
+                    <th class="txt-align-center-counter-row">
+                      <a title="Actualiser">
+                        <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                    </th>
+                    <th>Cédante</th>
+                    <th>Encaissé par le courtier </th>
+
+                    <th>Reste à payer au courtier</th>
+                    <th>Encaissé par la cédante</th>
+                    <th>Reste encaissé par la cédante</th>
+                    <!--width="428px"-->
+                    <th width="120px" class="txt-align-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr></tr>
+                </tbody>
+
+                <tfoot>
+
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="col-md-4 col-xs-4">
+                <div class="bg-card w-100 shadow">
+                    <div [chart]="segments1"></div>
+                </div>
+            </div>
+          </div>
+    </fieldset>
+    <fieldset class="mt-4">
+        <legend >Primes </legend>
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+              <table class="table table-condensed table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="6" style="padding: 14px;">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                          <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="custom-table-head">
+                    <th class="txt-align-center-counter-row">
+                      <a title="Actualiser">
+                        <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                    </th>
+                    <th>Cédante</th>
+                    <th>Primes</th>
+
+                    <th>Encaissées</th>
+                    <th>Reste à encaisser</th>
+                    <!--width="428px"-->
+                    <th width="120px" class="txt-align-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr></tr>
+                </tbody>
+
+                <tfoot>
+
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="col-md-4 col-xs-4">
+                <div class="bg-card w-100 shadow">
+                    <div [chart]="segments2"></div>
+                </div>
+            </div>
+          </div>
+    </fieldset>
+
+</fieldset>
+
+<fieldset class="mb-4">
+    <legend >Par cessionnaires </legend>
+    <fieldset class="mt-4">
+        <legend >Affaires facultatives </legend>
+            <div class="row">
+                <div class="col-md-8 col-xs-8 scrolleur">
+                  <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th colspan="6" style="padding: 14px;">
+                          <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                              <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                            </div>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr class="custom-table-head">
+                        <th class="txt-align-center-counter-row">
+                          <a title="Actualiser">
+                            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                        </th>
+                        <th>cessionnaires</th>
+                        <th>Nombre affaires </th>
+
+                        <th>SMP/LCI</th>
+                        <!--width="428px"-->
+                        <th width="120px" class="txt-align-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let detailCession of detailsAffaireParCessionnaires; let indice = index">
+                            <td>{{indice + 1}}</td>
+                            <td>{{detailCession.libelle}}</td>
+                            <td>{{detailCession.nbrAffaires | moneyFormat}}</td>
+                            <td>{{detailCession.mtSmpLciAccepte | moneyFormat}} ({{detailCession.tauxSmpLciAccepte}} %)</td>
+                            <td class="custom-width-td-action">
+                              <div class="custom-td-action">
+                                <div ngbDropdown class="d-inline-block">
+                                  <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
+                                    Actions
+                                  </button>
+                                    <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
+                                      <button ngbDropdownItem>
+                                        <i class="fa fa-list"></i>&nbsp;Détails
+                                      </button>
+                                    </div>
+                                </div>
+                              </div>
+                            </td>
+
+                      </tr>
+                    </tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+                  </table>
+                </div>
+
+                <div class="col-md-4 col-xs-4 scrolleur">
+                    <div class="bg-card w-100 shadow">
+                        <div [chart]="segments4"></div>
+                    </div>
+                </div>
+              </div>
+
+    </fieldset>
+    <fieldset class="mt-4">
+        <legend >Commissions </legend>
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+              <table class="table table-condensed table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="7" style="padding: 14px;">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                          <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="custom-table-head">
+                    <th class="txt-align-center-counter-row">
+                      <a title="Actualiser">
+                        <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                    </th>
+                    <th>cessionnaires/th>
+                    <th>Encaissé par le courtier </th>
+
+                    <th>Reste à payer au courtier</th>
+
+                    <!--width="428px"-->
+                    <th width="120px" class="txt-align-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr></tr>
+                </tbody>
+
+                <tfoot>
+
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="col-md-4 col-xs-4">
+                <div class="bg-card w-100 shadow">
+                    <div [chart]="segments3"></div>
+                </div>
+            </div>
+          </div>
+    </fieldset>
+    <fieldset class="mt-4">
+        <legend >Primes </legend>
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+              <table class="table table-condensed table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="6" style="padding: 14px;">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                          <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="custom-table-head">
+                    <th class="txt-align-center-counter-row">
+                      <a title="Actualiser">
+                        <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                    </th>
+                    <th>Cédante</th>
+                    <th>Primes</th>
+
+                    <th>Reversée</th>
+                    <th>Reste à reverser</th>
+                    <!--width="428px"-->
+                    <th width="120px" class="txt-align-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr></tr>
+                </tbody>
+
+                <tfoot>
+
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="col-md-4 col-xs-4">
+                <div class="bg-card w-100 shadow">
+                    <div [chart]="segments5"></div>
+                </div>
+            </div>
+          </div>
+    </fieldset>
+
+</fieldset>

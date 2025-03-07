@@ -1,0 +1,83 @@
+<div class="container-details"  [ngBusy]="{
+    busy: busyGet,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }">
+    <div class="row">
+        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+            <b>Filiale/cédante :
+            </b>
+            <span>{{itemDetailsAffaire?.cedNomFiliale | uppercase}}</span>
+        </div>
+
+        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+            <b>Assuré :
+            </b>
+            <span>{{itemDetailsAffaire?.affAssure | uppercase}}</span>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+            <b>Activité :
+            </b>
+            <span>{{itemDetailsAffaire?.affActivite}}</span>
+        </div>
+
+        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+            <b>Branche :
+            </b>
+            <span>{{itemDetailsAffaire?.couLibelle}}</span>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="!isPlacement">
+        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+            <b>Capitaux à 100%:
+            </b>
+            <span>{{itemDetailsAffaire?.affCapitalInitial | moneyFormat}}</span>
+        </div>
+
+        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+            <b>SMP/LCI :</b>
+            <span>{{ (currentRepartitionTaux?.facSmpLci || itemDetailsAffaire?.facSmpLci) | moneyFormat}}</span>
+        </div>
+      <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+        <b>Réserve NelsonRE :</b>
+        <span>{{ (itemDetailsAffaire?.reserveCourtier) | moneyFormat}}</span>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isPlacement">
+        <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+            <b>Capitaux à 100% :
+            </b>
+            <span>{{detailsPlacement?.affCapitalInitial | moneyFormat}}</span>
+        </div>
+
+        <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+            <b>Total placement :
+            </b>
+            <span>{{detailsPlacement?.capitalDejaReparti | moneyFormat}}</span>
+        </div>
+
+        <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+            <b>Bésoin fac  :
+            </b>
+            <span>{{detailsPlacement?.restARepartir | moneyFormat}}</span>
+        </div>
+
+        <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+            <b>SMP/LCI  :
+            </b>
+            <span>{{detailsPlacement?.facSmpLci | moneyFormat}}</span>
+        </div>
+      <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+        <b>Réserve NelsonRE :</b>
+        <span>{{ (itemDetailsAffaire?.reserveCourtier) | moneyFormat}}</span>
+      </div>
+
+    </div>
+
+</div>
